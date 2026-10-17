@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/12 00:00:00 by your-login        #+#    #+#             */
-/*   Updated: 2026/09/19 19:47:18 by izouriqi         ###   ########.fr       */
+/*   Created: 2026/10/17 15:33:30 by izouriqi          #+#    #+#             */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,7 @@ static void	dongle_init_one(t_dongle *dongle)
 	heap_init(&dongle->waiters, NULL, 0);
 }
 
-/*
-** A dongle can never have more waiters than there are coders in total
-** (each coder only ever waits for one dongle at a time), so a fixed
-** capacity of number_of_coders per heap is always enough; no resizing
-** is ever needed.
-*/
+
 static int	dongle_alloc_heap(t_dongle *dongle, int capacity)
 {
 	t_wait_entry	*storage;
@@ -38,11 +33,7 @@ static int	dongle_alloc_heap(t_dongle *dongle, int capacity)
 	return (1);
 }
 
-/*
-** There is one dongle for every coder (one between each adjacent pair
-** in the circle); see init_coders.c for how left/right indexes are
-** derived from that.
-*/
+
 int	dongles_init(t_sim *sim)
 {
 	int	i;

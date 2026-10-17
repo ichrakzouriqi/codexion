@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/19 19:49:28 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/09/19 19:49:31 by izouriqi         ###   ########.fr       */
+/*   Created: 2026/10/17 15:29:59 by izouriqi          #+#    #+#             */
+/*   Updated: 2026/10/17 15:48:20 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,13 @@
 # include <string.h>
 # include <unistd.h>
 
-/*
-** CDX_SCHED_FIFO / CDX_SCHED_EDF: the two arbitration policies a dongle can use
-** to decide who gets it next when several coders are waiting for it.
-**
-** MAX_ARG_DIGITS: a numeric argument longer than this is rejected before
-** it ever reaches atoi(). atoi() has no way to report overflow, so this
-** length cap is what keeps every accepted value safely inside int range
-** (10^9 already covers any realistic coder count or millisecond delay).
-**
-** MONITOR_TICK_US: how often (in microseconds) the monitor thread wakes
-** up to check for burnout / completion. 1000us = 1ms, ten times finer
-** than the 10ms precision the subject requires, with room to spare for
-** scheduling jitter.
-*/
+
 # define CDX_SCHED_FIFO 0
 # define CDX_SCHED_EDF 1
 # define MAX_ARG_DIGITS 9
 # define MONITOR_TICK_US 1000
 
-/*
-** t_wait_entry: one coder's ticket while it waits for a specific dongle.
-** primary_key / secondary_key are plain comparison keys: whichever entry
-** has the smallest primary_key is served first; secondary_key only
-** breaks ties. What the keys actually mean (arrival order vs. deadline)
-** is decided in scheduler.c, so the heap itself never needs to know
-** which scheduling policy is active.
-*/
+
 typedef struct s_wait_entry
 {
 	int				coder_id;
@@ -54,11 +34,7 @@ typedef struct s_wait_entry
 	long			secondary_key;
 }					t_wait_entry;
 
-/*
-** t_heap: a fixed-capacity binary min-heap of t_wait_entry. "entries" is
-** a single pre-allocated array (capacity = number_of_coders, the most
-** waiters a single dongle could ever have), so no resizing is needed.
-*/
+
 typedef struct s_heap
 {
 	t_wait_entry	*entries;
@@ -66,11 +42,7 @@ typedef struct s_heap
 	int				capacity;
 }					t_heap;
 
-/*
-** t_dongle: one shared resource. "taken" and "available_at_ms" record its
-** current state, "lock"/"cond" protect and signal that state, and
-** "waiters" is the fair-arbitration queue described above.
-*/
+
 typedef struct s_dongle
 {
 	int				taken;
@@ -80,7 +52,7 @@ typedef struct s_dongle
 	t_heap			waiters;
 }					t_dongle;
 
-/* t_params: the 8 command-line arguments, parsed and validated. */
+
 typedef struct s_params
 {
 	int				number_of_coders;
@@ -95,13 +67,7 @@ typedef struct s_params
 
 typedef struct s_sim	t_sim;
 
-/*
-** t_coder: one coder's identity, seating position and progress.
-** left_dongle / right_dongle are indexes into sim->dongles.
-** last_compile_start_ms and compiles_done are shared state: only ever
-** read or written while holding sim->state_lock (never a per-coder
-** lock, to keep the locking scheme small and easy to reason about).
-*/
+
 typedef struct s_coder
 {
 	int				id;
@@ -113,19 +79,7 @@ typedef struct s_coder
 	t_sim			*sim;
 }					t_coder;
 
-/*
-** t_sim: the whole simulation. Everything mutable that more than one
-** thread can touch lives in here, each field guarded by exactly one of
-** the mutexes below:
-**   - seq_lock   : seq_counter        (fifo arrival-order ticket source)
-**   - log_lock   : serializes every printed line
-**   - state_lock : every coder's last_compile_start_ms / compiles_done
-**   - stop_lock + stop_cond : the "stopped" flag and waking up sleepers
-** dongles/coders are allocated once before any thread starts and never
-** resized, so the arrays themselves need no lock, only the fields above.
-** There are no global variables anywhere in this project: every function
-** that needs simulation state receives a pointer to it as an argument.
-*/
+
 struct s_sim
 {
 	t_params		params;

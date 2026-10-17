@@ -6,18 +6,13 @@
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 19:47:51 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/09/19 19:47:55 by izouriqi         ###   ########.fr       */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-/*
-** Spawns one thread per coder plus the monitor thread, then waits for
-** all of them to finish. They only finish once the simulation has
-** stopped (burnout, or every coder reaching its compile quota), so this
-** function returns exactly when the simulation is over.
-*/
+
 static void	run_simulation(t_sim *sim)
 {
 	int	i;

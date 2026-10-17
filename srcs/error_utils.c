@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/12 00:00:00 by your-login        #+#    #+#             */
-/*   Updated: 2026/09/19 19:46:24 by izouriqi         ###   ########.fr       */
+/*   Created: 2026/10/17 15:32:29 by izouriqi          #+#    #+#             */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,7 @@ void	print_usage_error(const char *prog_name)
 	fprintf(stderr, "number_of_coders must additionally be at least 1.\n");
 }
 
-/*
-** Used only for the essentially-unreachable failure of a resource
-** allocation (malloc/pthread_create/...) very early in startup, before
-** any coder or monitor thread exists. Exiting immediately is safe: the
-** operating system reclaims every allocation, mutex and thread the
-** process owns as soon as it exits.
-*/
+
 void	exit_with_error(const char *msg)
 {
 	fprintf(stderr, "codexion: error: %s\n", msg);

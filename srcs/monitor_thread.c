@@ -6,18 +6,13 @@
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 19:48:01 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/09/19 19:48:04 by izouriqi         ###   ########.fr       */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-/*
-** A coder has burned out once "now" passes last_compile_start_ms +
-** time_to_burnout without a new compile having started. Checking every
-** coder under a single lock gives the monitor a consistent snapshot to
-** compare against.
-*/
+
 static int	monitor_check_burnout(t_sim *sim, long now)
 {
 	int		i;
@@ -64,12 +59,7 @@ static int	monitor_check_all_done(t_sim *sim)
 	return (all_done);
 }
 
-/*
-** Polls every MONITOR_TICK_US (1ms) — ten times finer than the 10ms
-** precision the subject requires for burnout reporting — until either a
-** coder burns out or every coder has reached number_of_compiles_required,
-** whichever happens first, then stops the whole simulation.
-*/
+
 void	*monitor_thread_run(void *arg)
 {
 	t_sim	*sim;

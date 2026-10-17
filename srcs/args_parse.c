@@ -6,18 +6,13 @@
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 19:45:21 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/09/19 19:45:25 by izouriqi         ###   ########.fr       */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-/*
-** By the time this is called, args_validate_all() has already confirmed
-** the string is only digits and short enough not to overflow an int, so
-** atoi() (the only numeric-conversion function this project is allowed
-** to use) is safe here.
-*/
+
 long	parse_positive_long(const char *s)
 {
 	return ((long)atoi(s));

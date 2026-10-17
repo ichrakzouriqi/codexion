@@ -6,7 +6,7 @@
 /*   By: izouriqi <izouriqi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 19:49:04 by izouriqi          #+#    #+#             */
-/*   Updated: 2026/09/19 19:49:12 by izouriqi         ###   ########.fr       */
+/*   Updated: 2026/10/17 15:48:35 by izouriqi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,7 @@ void	ms_to_timespec(long ms, struct timespec *ts)
 	ts->tv_nsec = (ms % 1000) * 1000000;
 }
 
-/*
-** Sleeps for duration_ms, but wakes up immediately if the simulation is
-** stopped from elsewhere (burnout, or every coder reaching its compile
-** quota), instead of always sleeping out the full duration. This is what
-** keeps shutdown prompt: no thread is ever left sleeping through a long
-** debug/refactor phase after the simulation has already ended.
-** Returns 1 if it was woken early by a stop, 0 if the duration elapsed
-** normally.
-*/
+
 int	sleep_interruptible(t_sim *sim, long duration_ms)
 {
 	long			deadline;
